@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+  <meta name="theme-color" content="#111211" />
+  <meta name="description" content="SASPI Code — Semana Acadêmica de Sistemas para Internet do IFTO Campus Palmas." />
+  <title>SASPI Code — IFTO Palmas</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#top">Pular para o conteúdo</a>
+
+  <!-- sprite de ícones (baseados em linhas, estilo lucide) -->
+  <svg style="display:none" aria-hidden="true">
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M6 4l14 8-14 8V4z"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></symbol>
+    <symbol id="i-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-radio" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M4.9 19.1a10 10 0 0 1 0-14.2M19.1 4.9a10 10 0 0 1 0 14.2M7.8 16.2a5 5 0 0 1 0-8.4M16.2 7.8a5 5 0 0 1 0 8.4"/></symbol>
+    <symbol id="i-code-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16"/></symbol>
+    <symbol id="i-mic-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3"/></symbol>
+    <symbol id="i-gamepad-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/><rect x="2" y="6" width="20" height="12" rx="6"/></symbol>
+    <symbol id="i-clock-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-external-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 5h3a2 2 0 0 1-2 4M7 5H4a2 2 0 0 0 2 4"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2 2M16 16l2 2M6 18l2-2M16 8l2-2"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></symbol>
+    <symbol id="i-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="m9 13.5-1.5 7.5 4.5-2.5 4.5 2.5L15 13.5"/></symbol>
+    <symbol id="i-building" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="1"/><path d="M9 22v-4h6v4M8 6h.01M12 6h.01M16 6h.01M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1.1.4 2.1.8 3.1a2 2 0 0 1-.4 2.1L8.1 10.3a16 16 0 0 0 6 6l1.4-1.4a2 2 0 0 1 2.1-.4c1 .4 2 .7 3.1.8a2 2 0 0 1 1.7 2Z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 6 10 7 10-7"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+  </svg>
+
+  <div class="site-shell">
+
+    <!-- topline -->
+    <div class="topline">
+      <span>IFTO / CAMPUS PALMAS</span>
+      <span class="topline__pulse"><i></i> INSCRIÇÕES ABERTAS</span>
+      <span class="topline__hide">SASPI CODE / IA · SEGURANÇA · ÉTICA</span>
+    </div>
+
+    <!-- header -->
+    <header class="site-header">
+      <button class="brand" data-goto="top" aria-label="Voltar ao início">
+        <span class="brand__mark"><span>{ }</span></span>
+        <span class="brand__text"><strong>SASPI</strong> <em>CODE</em><small>semana acadêmica</small></span>
+      </button>
+      <nav class="site-nav" id="siteNav" aria-label="Navegação principal">
+        <button data-goto="manifesto">manifesto</button>
+        <button data-goto="agenda">agenda</button>
+        <button data-goto="games">games</button>
+        <button data-goto="comissao">comissão</button>
+        <button data-goto="local">local</button>
+        <button data-goto="faq">faq</button>
+        <button class="nav-cta" data-goto="agenda">ver programação <svg class="icon"><use href="#i-arrow-up-right"/></svg></button>
+      </nav>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+        <svg class="icon"><use href="#i-menu"/></svg>
+      </button>
+    </header>
+
+    <main id="top">
+      <!-- hero -->
+      <section class="hero">
+        <div class="hero__visual" aria-hidden="true"></div>
+        <div class="hero__grid" aria-hidden="true"></div>
+        <div class="hero__content">
+          <div class="eyebrow"><span class="eyebrow__dot"></span> encontro acadêmico / sistemas para internet</div>
+          <h1>inteligência<br /><span>com ética.</span></h1>
+          <p class="hero__lead">Uma semana para discutir inteligência artificial, segurança e ética com quem pesquisa, desenvolve e decide.</p>
+          <div class="hero__actions">
+            <button class="button button--lime" data-goto="agenda">explorar a programação <svg class="icon"><use href="#i-arrow-right"/></svg></button>
+            <button class="button button--ghost" data-goto="manifesto"><svg class="icon"><use href="#i-play"/></svg> conhecer o evento</button>
+          </div>
+          <div class="hero__metadata">
+            <span><svg class="icon"><use href="#i-calendar"/></svg> 21—24 NOV</span>
+            <span><svg class="icon"><use href="#i-map-pin"/></svg> IFTO · PALMAS</span>
+            <span><svg class="icon"><use href="#i-radio"/></svg> presencial + online</span>
+          </div>
+        </div>
+        <div class="hero__side-note"><span>scroll to<br />explore</span><div class="hero__side-line"></div></div>
+        <aside class="hero__principles" aria-label="Princípios do evento">
+          <span class="hero__principles-kicker">princípios em foco</span>
+          <div><strong>01</strong><span>pessoas<br />no centro</span></div>
+          <div><strong>02</strong><span>segurança<br />por padrão</span></div>
+          <div><strong>03</strong><span>decisões<br />transparentes</span></div>
+        </aside>
+      </section>
+
+      <!-- manifesto -->
+      <section class="manifesto section-pad" id="manifesto">
+        <div class="container manifesto__layout">
+          <div class="manifesto__intro">
+            <div class="section-label"><span class="section-label__line"></span><span>00 / manifesto</span></div>
+            <p class="big-note">não é só sobre<br /><span>inovar.</span></p>
+          </div>
+          <div class="manifesto__copy">
+            <p class="display-copy">É sobre as pessoas que fazem perguntas antes de criar respostas — e colocam pessoas no centro da tecnologia.</p>
+            <p class="body-copy">A Semana Acadêmica de Sistemas para Internet aproxima estudantes, docentes e profissionais para uma experiência feita de conversas relevantes, ferramentas novas e encontros que continuam depois do evento.</p>
+            <button class="text-link" data-goto="sobre">por que participar <svg class="icon"><use href="#i-arrow-up-right"/></svg></button>
+          </div>
+          <div class="manifesto__stats">
+            <div><strong>04</strong><span>dias de imersão</span></div>
+            <div><strong>20+</strong><span>encontros e trilhas</span></div>
+            <div><strong>01</strong><span>comunidade em rede</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- tracks -->
+      <section class="tracks section-pad" id="sobre">
+        <div class="container">
+          <div class="section-label"><span class="section-label__line"></span><span>01 / o que te move?</span></div>
+          <div class="tracks__header">
+            <h2>três lentes,<br /><i>um futuro.</i></h2>
+            <p>IA, segurança e ética para pensar melhor, criar com cuidado e decidir com responsabilidade.</p>
+          </div>
+          <div class="tracks__grid">
+            <article class="track-card track-card--lime">
+              <div class="track-card__icon"><svg class="icon"><use href="#i-code-2"/></svg></div>
+              <span class="track-card__index">/ 01</span>
+              <h3>construir</h3>
+              <p>Minicursos para colocar a mão no código e atualizar o repertório.</p>
+              <span class="track-card__arrow"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span>
+            </article>
+            <article class="track-card track-card--violet">
+              <div class="track-card__icon"><svg class="icon"><use href="#i-mic-2"/></svg></div>
+              <span class="track-card__index">/ 02</span>
+              <h3>escutar</h3>
+              <p>Palestras sobre mercado, carreira, Google Cloud e os próximos desafios.</p>
+              <span class="track-card__arrow"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span>
+            </article>
+            <article class="track-card track-card--cream">
+              <div class="track-card__icon"><svg class="icon"><use href="#i-gamepad-2"/></svg></div>
+              <span class="track-card__index">/ 03</span>
+              <h3>jogar</h3>
+              <p>Sessões para competir, criar e lembrar que aprender também pode ser divertido.</p>
+              <span class="track-card__arrow"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- schedule -->
+      <section class="schedule section-pad" id="agenda">
+        <div class="container">
+          <div class="schedule__top">
+            <div>
+              <div class="section-label"><span class="section-label__line"></span><span>02 / programação</span></div>
+              <h2>o seu próximo<br /><i>insight.</i></h2>
+            </div>
+            <div class="schedule__side">
+              <span class="live-dot"><i></i> programação ao vivo</span>
+              <p>Quatro dias de conteúdo em três turnos. Salve os encontros que fazem sentido para você.</p>
+            </div>
+          </div>
+
+          <div class="day-tabs" role="tablist" aria-label="Dias da programação" id="dayTabs"></div>
+          <div class="schedule__list" id="scheduleList"></div>
+
+          <div class="schedule__footer">
+            <span><span class="schedule__key schedule__key--lime"></span> aprendizado prático <span class="schedule__key schedule__key--violet"></span> conversa e mercado</span>
+            <button class="text-link" id="downloadScheduleBtn">baixar programação <svg class="icon"><use href="#i-external-link"/></svg></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- games -->
+      <section class="games section-pad" id="games">
+        <div class="games__glow" aria-hidden="true"></div>
+        <div class="container">
+          <div class="games__top">
+            <div>
+              <div class="section-label"><span class="section-label__line"></span><span>03 / play mode</span></div>
+              <h2>conexão também<br /><i>é prática.</i></h2>
+            </div>
+            <div class="games__intro">
+              <div class="pixel-logo"><span>◒</span><b>GAME<br />ON</b></div>
+              <p>Porque comunidade também se constrói entre uma partida e outra.</p>
+            </div>
+          </div>
+          <div class="games__grid" id="gamesGrid"></div>
+          <div class="games__note">
+            <svg class="icon"><use href="#i-trophy"/></svg>
+            <span>as sessões de jogos acontecem na <strong>área de convivência do campus</strong>, no encerramento.</span>
+            <button data-goto="agenda">ver horário <svg class="icon"><use href="#i-arrow-up-right"/></svg></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- about -->
+      <section class="about section-pad">
+        <div class="container about__layout">
+          <div>
+            <div class="section-label"><span class="section-label__line"></span><span>04 / sobre o encontro</span></div>
+            <h2>venha com<br /><i>consciência.</i></h2>
+          </div>
+          <div class="about__content">
+            <p class="display-copy">Inteligência artificial, segurança e ética: tecnologia com responsabilidade para o futuro.</p>
+            <p class="body-copy">Organizada pelas coordenações dos cursos de informática do IFTO Campus Palmas, a SASPI existe para complementar a formação e fazer circular novas perspectivas — dentro e fora da sala de aula.</p>
+            <div class="about__links">
+              <button class="button button--lime" id="joinEventBtn">quero participar <svg class="icon"><use href="#i-arrow-right"/></svg></button>
+              <a class="button button--outline" href="https://www.ifto.edu.br/palmas" target="_blank" rel="noreferrer">conhecer o IFTO <svg class="icon"><use href="#i-external-link"/></svg></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- comissão organizadora -->
+      <section class="committee section-pad" id="comissao">
+        <div class="container">
+          <div class="section-label"><span class="section-label__line"></span><span>05 / comissão organizadora</span></div>
+          <div class="committee__header">
+            <h2>quem faz<br /><i>acontecer.</i></h2>
+            <p>A SASPI Code é organizada por docentes e discentes das coordenações dos cursos de informática do IFTO Campus Palmas.</p>
+          </div>
+          <ul class="committee__grid">
+            <li class="committee-card">
+              <span class="committee-card__icon"><svg class="icon"><use href="#i-award"/></svg></span>
+              <strong>Ana Paula Rezende</strong>
+              <span>Coordenação geral</span>
+            </li>
+            <li class="committee-card">
+              <span class="committee-card__icon"><svg class="icon"><use href="#i-award"/></svg></span>
+              <strong>Diego Martins Uchôa</strong>
+              <span>Coordenação acadêmica</span>
+            </li>
+            <li class="committee-card">
+              <span class="committee-card__icon"><svg class="icon"><use href="#i-award"/></svg></span>
+              <strong>Beatriz Andrade Lima</strong>
+              <span>Comunicação e divulgação</span>
+            </li>
+            <li class="committee-card">
+              <span class="committee-card__icon"><svg class="icon"><use href="#i-award"/></svg></span>
+              <strong>Rafael Souza Nunes</strong>
+              <span>Infraestrutura e logística</span>
+            </li>
+            <li class="committee-card">
+              <span class="committee-card__icon"><svg class="icon"><use href="#i-award"/></svg></span>
+              <strong>Camila Torres Vieira</strong>
+              <span>Financeiro e certificados</span>
+            </li>
+            <li class="committee-card">
+              <span class="committee-card__icon"><svg class="icon"><use href="#i-award"/></svg></span>
+              <strong>Diretório Acadêmico SI</strong>
+              <span>Apoio estudantil</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- parceiros / instituições participantes -->
+      <section class="partners section-pad">
+        <div class="container">
+          <div class="section-label"><span class="section-label__line"></span><span>06 / rede de apoio</span></div>
+          <div class="partners__header">
+            <h2>instituições na<br /><i>programação.</i></h2>
+            <p>Organizações que confirmaram participação com palestras, minicursos ou mediações ao longo da semana.</p>
+          </div>
+          <ul class="partners__grid">
+            <li class="partner-badge">IFTO</li>
+            <li class="partner-badge">Google Cloud</li>
+            <li class="partner-badge">TCE-TO</li>
+            <li class="partner-badge">UFT</li>
+            <li class="partner-badge">Unitins</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- local -->
+      <section class="location section-pad" id="local">
+        <div class="container location__layout">
+          <div class="location__info">
+            <div class="section-label"><span class="section-label__line"></span><span>07 / como chegar</span></div>
+            <h2>onde vamos<br /><i>estar.</i></h2>
+            <p class="body-copy">O evento acontece de forma presencial no campus, com transmissão simultânea das atividades marcadas como "online" na programação.</p>
+            <dl class="location__details">
+              <div><dt><svg class="icon"><use href="#i-building"/></svg> Endereço</dt><dd>IFTO — Campus Palmas<br />AE 310 Sul, Avenida LO 05, s/n<br />Plano Diretor Sul, Palmas – TO<br />CEP 77.021-090</dd></div>
+              <div><dt><svg class="icon"><use href="#i-phone"/></svg> Telefone</dt><dd><a href="tel:+556332364000">(63) 3236-4000</a></dd></div>
+              <div><dt><svg class="icon"><use href="#i-mail"/></svg> E-mail</dt><dd><a href="mailto:saspi@ifto.edu.br">saspi@ifto.edu.br</a></dd></div>
+            </dl>
+            <p class="location__note">Estacionamento gratuito dentro do campus. Consulte as linhas de ônibus municipais que atendem o Plano Diretor Sul para acesso por transporte público.</p>
+          </div>
+          <div class="location__map">
+            <iframe
+              title="Mapa de localização do IFTO Campus Palmas"
+              src="https://www.google.com/maps?q=IFTO+Campus+Palmas,+AE+310+Sul,+Avenida+LO+05,+Palmas+-+TO&output=embed"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- faq -->
+      <section class="faq section-pad" id="faq">
+        <div class="container">
+          <div class="section-label"><span class="section-label__line"></span><span>08 / perguntas frequentes</span></div>
+          <div class="faq__header">
+            <h2>ainda com<br /><i>dúvidas?</i></h2>
+            <p>As respostas mais pedidas pela comunidade acadêmica sobre a SASPI Code.</p>
+          </div>
+          <div class="faq__list" id="faqList"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- footer -->
+    <footer class="site-footer">
+      <div class="container site-footer__top">
+        <div class="footer-brand">
+          <span class="brand__mark"><span>{ }</span></span>
+          <p><strong>SASPI CODE</strong><br />Semana Acadêmica de<br />Sistemas para Internet</p>
+        </div>
+        <div class="footer-nav">
+          <span>navegue</span>
+          <button data-goto="manifesto">manifesto</button>
+          <button data-goto="agenda">programação</button>
+          <button data-goto="comissao">comissão</button>
+          <button data-goto="faq">faq</button>
+        </div>
+        <div class="footer-nav">
+          <span>encontre</span>
+          <button data-goto="local">local do evento</button>
+          <a href="https://www.ifto.edu.br/palmas" target="_blank" rel="noreferrer">IFTO Campus Palmas <svg class="icon"><use href="#i-external-link"/></svg></a>
+          <a href="mailto:saspi@ifto.edu.br">saspi@ifto.edu.br</a>
+          <a href="https://github.com" target="_blank" rel="noreferrer"><svg class="icon"><use href="#i-github"/></svg> comunidade no GitHub</a>
+        </div>
+        <div class="footer-sign">
+          <svg class="icon"><use href="#i-sparkles"/></svg>
+          <span>feito para quem<br /><b>faz acontecer.</b></span>
+        </div>
+      </div>
+      <div class="container site-footer__bottom">
+        <span>© SASPI CODE / IFTO · sistemas para internet</span>
+        <span>build with curiosity <svg class="icon"><use href="#i-zap"/></svg></span>
+      </div>
+    </footer>
+
+    <!-- modal -->
+    <div class="modal-backdrop" id="modalBackdrop">
+      <div class="session-modal" id="sessionModal" role="dialog" aria-modal="true" aria-label="Detalhes da atividade">
+        <button class="modal-close" id="modalClose" aria-label="Fechar detalhes"><svg class="icon"><use href="#i-x"/></svg></button>
+        <span class="modal-kicker" id="modalKicker"></span>
+        <h3 id="modalTitle"></h3>
+        <p class="modal-speaker"><svg class="icon"><use href="#i-users"/></svg> <span id="modalSpeaker"></span></p>
+        <div class="modal-details">
+          <span><svg class="icon"><use href="#i-clock-3"/></svg> <span id="modalTime"></span></span>
+          <span><svg class="icon"><use href="#i-map-pin"/></svg> <span id="modalPlace"></span></span>
+        </div>
+        <button class="button button--lime" id="modalSaveBtn">salvar na minha agenda <svg class="icon"><use href="#i-check"/></svg></button>
+      </div>
+    </div>
+
+    <!-- toast -->
+    <div class="toast-container" id="toastContainer"></div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
