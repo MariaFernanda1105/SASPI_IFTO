@@ -299,6 +299,135 @@ button:focus-visible, a:focus-visible { outline: 2px solid #2f7d46; outline-offs
 .games__note strong { color: #1b211d; font-weight: 500; }
 .games__note button { display: inline-flex; align-items: center; gap: 5px; padding: 0; margin-left: auto; color: #b52a36; background: transparent; border-bottom: 1px solid #b52a36; font: 400 10px 'DM Mono', monospace; }
 
+/* inscrição */
+.registration { background: #ffffff; color: #171817; border-top: 1px solid rgba(27,33,29,.08); }
+.registration .section-label { color: #696d65; }
+.registration .section-label__line { background: #2f7d46; }
+.registration__layout { display: grid; grid-template-columns: 1fr 1.15fr; gap: 64px; align-items: start; }
+.registration h2 { margin: 26px 0 20px; color: #171817; font: 600 clamp(42px, 5.4vw, 72px)/.9 'Space Grotesk', sans-serif; letter-spacing: -.09em; }
+.registration h2 i { color: #2f7d46; font-style: normal; }
+.registration__lead { max-width: 480px; margin: 0 0 32px; color: #5e685f; font: 400 15px/1.7 'Manrope', sans-serif; }
+.registration__lead strong { color: #1b211d; }
+
+.registration__perks { display: flex; flex-direction: column; gap: 14px; margin-top: 24px; }
+.perk-item {
+  display: flex; align-items: flex-start; gap: 16px; padding: 18px 20px;
+  background: #f4f6f0; border-left: 4px solid #2f7d46; border-top: 1px solid rgba(27,33,29,.08);
+  border-right: 1px solid rgba(27,33,29,.08); border-bottom: 1px solid rgba(27,33,29,.08);
+}
+.perk-item__icon {
+  width: 36px; height: 36px; display: grid; place-items: center; color: #2f7d46;
+  background: #ffffff; border: 1px solid rgba(47,125,70,.25); flex-shrink: 0;
+}
+.perk-item strong { display: block; font: 600 14px 'Space Grotesk', sans-serif; color: #171817; margin-bottom: 3px; }
+.perk-item p { margin: 0; color: #62665e; font: 400 12px/1.55 'Manrope', sans-serif; }
+
+/* formulário */
+.registration__form-wrapper { position: relative; }
+.registration-form {
+  background: #f4f6f0; padding: 36px 32px; border: 1px solid rgba(27,33,29,.14);
+  box-shadow: 12px 12px 0 rgba(47,125,70,.12);
+}
+.form-header { margin-bottom: 24px; padding-bottom: 18px; border-bottom: 1px solid rgba(27,33,29,.12); }
+.form-header__tag {
+  display: inline-block; padding: 4px 8px; background: #b52a36; color: #ffffff;
+  font: 600 9px 'DM Mono', monospace; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px;
+}
+.form-header h3 { margin: 0 0 6px; font: 700 24px 'Space Grotesk', sans-serif; letter-spacing: -.04em; color: #171817; }
+.form-header p { margin: 0; color: #696d65; font: 400 12px/1.5 'Manrope', sans-serif; }
+
+.form-group { margin-bottom: 18px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-group label {
+  display: block; margin-bottom: 8px; font: 600 11px 'DM Mono', monospace;
+  text-transform: uppercase; letter-spacing: .05em; color: #171817;
+}
+.required-star { color: #b52a36; }
+.form-label-block { margin-bottom: 4px; }
+.form-hint { display: block; margin-bottom: 10px; font: 400 11px 'DM Mono', monospace; color: #6e7269; }
+
+.registration-form input[type="text"],
+.registration-form input[type="email"],
+.registration-form input[type="tel"],
+.registration-form select {
+  width: 100%; height: 44px; padding: 0 14px; background: #ffffff;
+  border: 1px solid rgba(27,33,29,.2); border-radius: 0;
+  font: 400 13px 'Manrope', sans-serif; color: #171817;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.registration-form input[type="text"]::placeholder,
+.registration-form input[type="email"]::placeholder,
+.registration-form input[type="tel"]::placeholder {
+  color: #9ea39a; font-family: 'Manrope', sans-serif;
+}
+.registration-form input:focus,
+.registration-form select:focus {
+  outline: 2px solid #2f7d46; outline-offset: 1px; border-color: #2f7d46;
+}
+
+/* checkbox group */
+.checkbox-group { display: flex; flex-direction: column; gap: 8px; }
+.checkbox-item {
+  display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px;
+  background: #ffffff; border: 1px solid rgba(27,33,29,.12); cursor: pointer;
+  transition: border-color .15s ease, background .15s ease;
+}
+.checkbox-item:hover { border-color: #2f7d46; background: #fdfefe; }
+.checkbox-item input[type="checkbox"] { position: absolute; opacity: 0; pointer-events: none; }
+.checkbox-item__box {
+  width: 18px; height: 18px; border: 1px solid rgba(27,33,29,.3);
+  background: #ffffff; display: grid; place-items: center; flex-shrink: 0; margin-top: 2px;
+  transition: background .15s ease, border-color .15s ease;
+}
+.checkbox-item input[type="checkbox"]:checked + .checkbox-item__box {
+  background: #2f7d46; border-color: #2f7d46;
+}
+.checkbox-item input[type="checkbox"]:checked + .checkbox-item__box::after {
+  content: "✓"; color: #ffffff; font-size: 12px; font-weight: bold; line-height: 1;
+}
+.checkbox-item input[type="checkbox"]:focus-visible + .checkbox-item__box {
+  outline: 2px solid #2f7d46; outline-offset: 2px;
+}
+.checkbox-item__text strong { display: block; font: 600 12px 'Space Grotesk', sans-serif; color: #171817; }
+.checkbox-item__text small { font: 400 10px 'DM Mono', monospace; color: #6e7269; }
+
+/* form footer & button */
+.form-footer { margin-top: 24px; }
+.button--full { width: 100%; min-height: 48px; font-size: 12px; text-transform: uppercase; font-weight: 600; }
+.form-privacy { margin: 12px 0 0; text-align: center; color: #767b73; font: 400 10px/1.5 'DM Mono', monospace; }
+
+/* card de sucesso */
+.registration-success {
+  background: #ffffff; border: 1px solid rgba(27,33,29,.14); padding: 48px 32px;
+  text-align: center; box-shadow: 12px 12px 0 rgba(47,125,70,.16);
+}
+.registration-success.is-hidden { display: none; }
+.success-card__badge {
+  width: 56px; height: 56px; border-radius: 50%; background: #2f7d46; color: #ffffff;
+  display: grid; place-items: center; margin: 0 auto 18px; font-size: 24px;
+  box-shadow: 0 0 0 8px rgba(47,125,70,.14);
+}
+.success-card__kicker {
+  display: block; font: 600 10px 'DM Mono', monospace; letter-spacing: .1em;
+  color: #2f7d46; margin-bottom: 8px; text-transform: uppercase;
+}
+.success-card h3 { margin: 0 0 10px; font: 700 30px 'Space Grotesk', sans-serif; letter-spacing: -.05em; color: #171817; }
+.success-card p { max-width: 440px; margin: 0 auto 22px; color: #5e685f; font: 400 14px/1.6 'Manrope', sans-serif; }
+.success-card__details {
+  text-align: left; background: #f4f6f0; border: 1px solid rgba(27,33,29,.12);
+  border-left: 4px solid #2f7d46; padding: 18px 20px; margin: 0 auto 26px; max-width: 440px;
+  font: 400 12px/1.6 'DM Mono', monospace; color: #3c4038;
+}
+.success-card__details strong { color: #171817; display: block; margin-bottom: 6px; font-family: 'Space Grotesk', sans-serif; font-size: 14px; }
+.success-card__details ul { margin: 6px 0 0; padding-left: 18px; }
+
+/* ajuste para botão topline */
+.topline__pulse {
+  cursor: pointer; background: transparent; border: 0; padding: 0; color: inherit; font: inherit;
+  transition: opacity .15s ease;
+}
+.topline__pulse:hover { opacity: .8; }
+
 /* comissão organizadora */
 .committee { background: #ffffff; color: #171817; }
 .committee .section-label { color: #696d65; }
@@ -465,8 +594,10 @@ button:focus-visible, a:focus-visible { outline: 2px solid #2f7d46; outline-offs
   .hero__side-note { display: none; }
   .hero__metadata { flex-wrap: wrap; gap: 12px 17px; margin-top: 42px; }
   .hero__principles { right: 20px; bottom: 34px; transform: scale(.82); transform-origin: bottom right; }
-  .section-pad { padding: 78px 0; }
-  .manifesto__layout, .about__layout { grid-template-columns: 1fr; gap: 0; }
+  .manifesto__layout, .about__layout, .registration__layout { grid-template-columns: 1fr; gap: 0; }
+  .form-row { grid-template-columns: 1fr; gap: 0; }
+  .registration-form { padding: 26px 20px; }
+  .registration__perks { margin-bottom: 35px; }
   .manifesto__intro .big-note { margin-top: 45px; }
   .manifesto__copy, .about__content { padding-top: 52px; }
   .manifesto__stats { grid-template-columns: repeat(3, 1fr); padding-top: 62px; gap: 14px; }

@@ -294,11 +294,163 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -----------------------------------------------------------
-  // inscrição (about)
+  // formulário de inscrição + supabase
   // -----------------------------------------------------------
-  $("#joinEventBtn").addEventListener("click", () => {
-    showToast("Inscrição encaminhada", "Em breve, a organização enviará os próximos passos.");
-  });
+  const regForm = $("#registrationForm");
+  const regVinculo = $("#regVinculo");
+  const regIdent = $("#regIdent");
+  const regIdentLabel = $("#regIdentLabel");
+  const regTelefone = $("#regTelefone");
+  const regSubmitBtn = $("#regSubmitBtn");
+  const regSuccess = $("#registrationSuccess");
+  const newRegBtn = $("#newRegBtn");
+
+  // Máscara automática para Telefone / WhatsApp: (XX) XXXXX-XXXX
+  if (regTelefone) {
+    regTelefone.addEventListener("input", (e) => {
+      let val = e.target.value.replace(/\D/g, "");
+      if (val.length > 11) val = val.slice(0, 11);
+      if (val.length > 10) {
+        e.target.value = val.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3");
+      } else if (val.length > 6) {
+        e.target.value = val.replace(/^(\d{2})(\d{4})(\d{0,4})$/, "($1) $2-$3");
+      } else if (val.length > 2) {
+        e.target.value = val.replace(/^(\d{2})(\d{0,5})$/, "($1) $2");
+      } else {
+        e.target.value = val;
+      }
+    });
+  }
+
+  if (regVinculo && regIdent) {
+    regVinculo.addEventListener("change", () => {
+      const val = regVinculo.value;
+      if (val === "estudante_ifto") {
+        regIdentLabel.innerHTML = 'Matrícula IFTO <span class="required-star">*</span>';
+        regIdent.placeholder = "Ex: 202410110001";
+        regIdent.required = true;
+      } else if (val === "servidor_ifto") {
+        regIdentLabel.innerHTML = 'Matrícula / SIAPE <span class="required-star">*</span>';
+        regIdent.placeholder = "Ex: 1982736 ou e-mail IFTO";
+        regIdent.required = true;
+      } else {
+        regIdentLabel.innerHTML = 'Instituição / Empresa <span class="required-star">*</span>';
+        regIdent.placeholder = "Ex: UFT, Unitins, ou Empresa";
+        regIdent.required = true;
+      }
+    });
+  }
+
+  if (regForm) {
+    regForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const nome = $("#regNome").value.trim();
+      const email = $("#regEmail").value.trim();
+      const telefone = regTelefone ? regTelefone.value.trim() : "";
+      const vinculo = regVinculo.value;
+      const matricula_ou_instituicao = regIdent.value.trim();
+      const curso = $("#regCurso").value.trim();
+
+      if (!nome || !email || !telefone || !vinculo || !matricula_ou_instituicao || !curso) {
+        showToast("Campos obrigatórios", "Por favor, preencha todos os campos da ficha.");
+        return;
+      }
+
+      if (nome.length < 3) {
+        showToast("Nome inválido", "Por favor, informe seu nome completo.");
+        $("#regNome").focus();
+        return;
+      }
+
+      const telDigitos = telefone.replace(/\D/g, "");
+      if (telDigitos.length < 10) {
+        showToast("Telefone inválido", "Por favor, digite seu telefone completo com DDD.");
+        regTelefone?.focus();
+        return;
+      }
+
+      // Coleta minicursos selecionados
+      const minicursosChecked = Array.from(
+        document.querySelectorAll('input[name="minicursos"]:checked')
+      ).map((cb) => cb.value);
+
+      if (minicursosChecked.length === 0) {
+        showToast("Atividade obrigatória", "Por favor, selecione pelo menos um minicurso ou oficina.");
+        return;
+      }
+
+      // Estado de carregamento no botão
+      const originalBtnHtml = regSubmitBtn.innerHTML;
+      regSubmitBtn.disabled = true;
+      regSubmitBtn.innerHTML = `<span>enviando inscrição...</span> <svg class="icon"><use href="#i-clock-3"/></svg>`;
+
+      try {
+        const resultado = await salvarInscricao({
+          nome,
+          email,
+          telefone,
+          vinculo,
+          matricula_ou_instituicao,
+          curso,
+          minicursos: minicursosChecked,
+        });
+
+        if (resultado.success) {
+          if (resultado.isDemo) {
+            showToast("Inscrição confirmada!", "Modo demonstração ativo (configure js/supabase.js para gravar no banco).");
+          } else {
+            showToast("Inscrição confirmada!", "Seus dados foram salvos no Supabase com sucesso.");
+          }
+
+          // Preenche o card de sucesso
+          $("#successParticipantName").textContent = `Parabéns, ${nome}!`;
+
+          const vinculoLabels = {
+            estudante_ifto: "Estudante IFTO",
+            servidor_ifto: "Servidor / Professor IFTO",
+            comunidade_externa: "Comunidade Externa",
+          };
+
+          const minicursosListHtml =
+            minicursosChecked.length > 0
+              ? `<ul>${minicursosChecked.map((m) => `<li>${m}</li>`).join("")}</ul>`
+              : "<em>Nenhum minicurso selecionado</em>";
+
+          $("#successDetails").innerHTML = `
+            <strong>Comprovante de Reserva:</strong>
+            <div><b>E-mail:</b> ${email}</div>
+            <div><b>Telefone:</b> ${telefone}</div>
+            <div><b>Vínculo:</b> ${vinculoLabels[vinculo] || vinculo}</div>
+            ${matricula_ou_instituicao ? `<div><b>Identificação:</b> ${matricula_ou_instituicao}</div>` : ""}
+            ${curso ? `<div><b>Curso/Área:</b> ${curso}</div>` : ""}
+            <div style="margin-top: 8px;"><b>Atividades selecionadas:</b> ${minicursosListHtml}</div>
+          `;
+
+          regForm.style.display = "none";
+          regSuccess.classList.remove("is-hidden");
+          regSuccess.scrollIntoView({ behavior: "smooth" });
+        } else {
+          showToast("Erro ao inscrever", resultado.error || "Não foi possível conectar ao banco de dados.");
+        }
+      } catch (err) {
+        console.error(err);
+        showToast("Erro inesperado", "Ocorreu uma falha ao processar o formulário.");
+      } finally {
+        regSubmitBtn.disabled = false;
+        regSubmitBtn.innerHTML = originalBtnHtml;
+      }
+    });
+  }
+
+  if (newRegBtn) {
+    newRegBtn.addEventListener("click", () => {
+      regForm.reset();
+      regForm.style.display = "block";
+      regSuccess.classList.add("is-hidden");
+      goTo("inscricao");
+    });
+  }
 
   // -----------------------------------------------------------
   // init

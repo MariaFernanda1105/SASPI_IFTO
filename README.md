@@ -8,12 +8,12 @@ dependências para instalar.
 
 ```
 saspi-code-simples/
-├── index.html      → toda a estrutura da página (header, hero, agenda, games, etc.)
+├── index.html      → toda a estrutura da página (header, hero, agenda, games, inscrições, etc.)
 ├── css/
-│   └── style.css   → todo o estilo visual (cores, tipografia, layout responsivo)
+│   └── style.css   → todo o estilo visual (cores IFTO, tipografia, layout responsivo)
 └── js/
-    └── script.js   → interatividade: menu mobile, abas de dias, modal de sessão,
-                       botão "participar" dos jogos e as notificações (toasts)
+    ├── supabase.js → cliente e credenciais do banco Supabase (com modo demo)
+    └── script.js   → interatividade: menu mobile, abas, modal, envio de inscrição e toasts
 ```
 
 ## Como rodar
@@ -28,6 +28,52 @@ Não precisa instalar nada (`npm install`, etc). Basta abrir com o **Live Server
 Você também pode simplesmente abrir o `index.html` direto no navegador (funciona sem
 servidor, já que não há chamadas de API nem módulos ES importados por caminho relativo
 que exijam `http://`).
+
+## Banco de Dados das Inscrições (Supabase)
+
+O formulário de inscrições salva os participantes diretamente no **Supabase** (PostgreSQL na nuvem).
+
+### 1. Criar a Tabela no Supabase
+Acesse o painel do seu projeto no Supabase, abra o menu **SQL Editor** e execute o comando abaixo:
+
+```sql
+-- Criar tabela de inscrições com TODOS os campos obrigatórios
+create table public.inscricoes (
+  id uuid default gen_random_uuid() primary key,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  nome text not null check (char_length(trim(nome)) >= 3),
+  email text not null unique check (char_length(trim(email)) > 5),
+  telefone text not null check (char_length(trim(telefone)) >= 10),
+  vinculo text not null check (vinculo in ('estudante_ifto', 'servidor_ifto', 'comunidade_externa')),
+  matricula_ou_instituicao text not null check (char_length(trim(matricula_ou_instituicao)) >= 2),
+  curso text not null check (char_length(trim(curso)) >= 2),
+  minicursos jsonb not null check (jsonb_array_length(minicursos) >= 1)
+);
+
+-- Habilitar Row Level Security (RLS)
+alter table public.inscricoes enable row level security;
+
+-- Permitir inserção de novas inscrições
+create policy "Permitir inserção pública de inscrições"
+on public.inscricoes for insert
+to anon
+with check (true);
+
+-- Permitir checagem de e-mail existente
+create policy "Permitir checagem de e-mail existente"
+on public.inscricoes for select
+to anon
+using (true);
+```
+
+### 2. Configurar as Chaves no Projeto
+Abra o arquivo `js/supabase.js` e preencha as variáveis com os dados do seu projeto:
+
+```javascript
+const SUPABASE_URL = "https://SEU_PROJETO.supabase.co";
+const SUPABASE_ANON_KEY = "SUA_CHAVE_ANON_PUBLICA";
+```
+> **Nota:** Caso as chaves ainda não estejam preenchidas, o site entra automaticamente em **Modo Demonstração**, simulando o envio e permitindo testar toda a interface e fluxo sem erros.
 
 ## O que foi mantido do site original
 

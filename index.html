@@ -48,7 +48,7 @@
     <!-- topline -->
     <div class="topline">
       <span>IFTO / CAMPUS PALMAS</span>
-      <span class="topline__pulse"><i></i> INSCRIÇÕES ABERTAS</span>
+      <button class="topline__pulse" data-goto="inscricao" title="Ir para formulário de inscrição"><i></i> INSCRIÇÕES ABERTAS</button>
       <span class="topline__hide">SASPI CODE / IA · SEGURANÇA · ÉTICA</span>
     </div>
 
@@ -62,10 +62,11 @@
         <button data-goto="manifesto">manifesto</button>
         <button data-goto="agenda">agenda</button>
         <button data-goto="games">games</button>
+        <button data-goto="inscricao">inscrição</button>
         <button data-goto="comissao">comissão</button>
         <button data-goto="local">local</button>
         <button data-goto="faq">faq</button>
-        <button class="nav-cta" data-goto="agenda">ver programação <svg class="icon"><use href="#i-arrow-up-right"/></svg></button>
+        <button class="nav-cta" data-goto="inscricao">inscreva-se <svg class="icon"><use href="#i-arrow-up-right"/></svg></button>
       </nav>
       <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
         <svg class="icon"><use href="#i-menu"/></svg>
@@ -82,8 +83,8 @@
           <h1>inteligência<br /><span>com ética.</span></h1>
           <p class="hero__lead">Uma semana para discutir inteligência artificial, segurança e ética com quem pesquisa, desenvolve e decide.</p>
           <div class="hero__actions">
-            <button class="button button--lime" data-goto="agenda">explorar a programação <svg class="icon"><use href="#i-arrow-right"/></svg></button>
-            <button class="button button--ghost" data-goto="manifesto"><svg class="icon"><use href="#i-play"/></svg> conhecer o evento</button>
+            <button class="button button--lime" data-goto="inscricao">garantir minha vaga <svg class="icon"><use href="#i-arrow-right"/></svg></button>
+            <button class="button button--ghost" data-goto="agenda"><svg class="icon"><use href="#i-calendar"/></svg> programação</button>
           </div>
           <div class="hero__metadata">
             <span><svg class="icon"><use href="#i-calendar"/></svg> 21—24 NOV</span>
@@ -212,8 +213,166 @@
             <p class="display-copy">Inteligência artificial, segurança e ética: tecnologia com responsabilidade para o futuro.</p>
             <p class="body-copy">Organizada pelas coordenações dos cursos de informática do IFTO Campus Palmas, a SASPI existe para complementar a formação e fazer circular novas perspectivas — dentro e fora da sala de aula.</p>
             <div class="about__links">
-              <button class="button button--lime" id="joinEventBtn">quero participar <svg class="icon"><use href="#i-arrow-right"/></svg></button>
+              <button class="button button--lime" data-goto="inscricao">quero participar <svg class="icon"><use href="#i-arrow-right"/></svg></button>
               <a class="button button--outline" href="https://www.ifto.edu.br/palmas" target="_blank" rel="noreferrer">conhecer o IFTO <svg class="icon"><use href="#i-external-link"/></svg></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- inscrição -->
+      <section class="registration section-pad" id="inscricao">
+        <div class="container registration__layout">
+          <div class="registration__intro">
+            <div class="section-label"><span class="section-label__line"></span><span>05 / inscrições abertas</span></div>
+            <h2>garanta seu<br /><i>lugar.</i></h2>
+            <p class="registration__lead">
+              A participação na SASPI Code é 100% gratuita. Cadastre-se para garantir sua presença, reservar vagas nos minicursos práticos e receber o <strong>certificado oficial de participação</strong> do IFTO.
+            </p>
+
+            <div class="registration__perks">
+              <div class="perk-item">
+                <span class="perk-item__icon"><svg class="icon"><use href="#i-award"/></svg></span>
+                <div>
+                  <strong>Certificado Oficial IFTO</strong>
+                  <p>Válido como horas de atividades complementares para cursos técnicos e superiores.</p>
+                </div>
+              </div>
+              <div class="perk-item">
+                <span class="perk-item__icon"><svg class="icon"><use href="#i-code-2"/></svg></span>
+                <div>
+                  <strong>Acesso aos Minicursos</strong>
+                  <p>Laboratórios práticos de Git & GitHub, Docker, Pandas e desenvolvimento moderno.</p>
+                </div>
+              </div>
+              <div class="perk-item">
+                <span class="perk-item__icon"><svg class="icon"><use href="#i-users"/></svg></span>
+                <div>
+                  <strong>Comunidade e Conexões</strong>
+                  <p>Intercâmbio direto com palestrantes convidados do Google, TCE-TO, UFT e Unitins.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="registration__form-wrapper">
+            <form class="registration-form" id="registrationForm" novalidate>
+              <div class="form-header">
+                <span class="form-header__tag">CADASTRO DE PARTICIPANTE</span>
+                <h3>Ficha de Inscrição</h3>
+                <p>Preencha os campos abaixo com atenção. Os dados serão usados na emissão do certificado.</p>
+              </div>
+
+              <div class="form-group">
+                <label for="regNome">Nome completo <span class="required-star">*</span></label>
+                <input type="text" id="regNome" name="nome" placeholder="Digite seu nome completo" required autocomplete="name" />
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="regEmail">E-mail para confirmação <span class="required-star">*</span></label>
+                  <input type="email" id="regEmail" name="email" placeholder="seu.email@exemplo.com" required autocomplete="email" />
+                </div>
+
+                <div class="form-group">
+                  <label for="regTelefone">Telefone / WhatsApp <span class="required-star">*</span></label>
+                  <input type="tel" id="regTelefone" name="telefone" placeholder="(63) 99999-9999" maxlength="15" required autocomplete="tel" />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="regVinculo">Vínculo institucional <span class="required-star">*</span></label>
+                  <select id="regVinculo" name="vinculo" required>
+                    <option value="" disabled selected>Selecione seu vínculo...</option>
+                    <option value="estudante_ifto">Estudante IFTO</option>
+                    <option value="servidor_ifto">Servidor / Professor IFTO</option>
+                    <option value="comunidade_externa">Comunidade Externa / Outra IES</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="regIdent" id="regIdentLabel">Matrícula ou Instituição <span class="required-star">*</span></label>
+                  <input type="text" id="regIdent" name="matricula_ou_instituicao" placeholder="Nº de matrícula IFTO ou instituição" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="regCurso">Curso ou área de atuação <span class="required-star">*</span></label>
+                <input type="text" id="regCurso" name="curso" placeholder="Ex: Sistemas para Internet, Informática, Engenharia..." required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label-block">Minicursos e oficinas de interesse <span class="required-star">*</span></label>
+                <span class="form-hint">Marque pelo menos uma atividade prática que deseja acompanhar:</span>
+                <div class="checkbox-group" id="minicursosCheckboxes">
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="minicursos" value="Exploração de dados com Pandas (21/11)" />
+                    <span class="checkbox-item__box"></span>
+                    <span class="checkbox-item__text">
+                      <strong>Exploração de dados com Pandas</strong>
+                      <small>21/11 · Dr. Rogério Nogueira (UFT)</small>
+                    </span>
+                  </label>
+
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="minicursos" value="Git & GitHub na prática (22 e 23/11)" />
+                    <span class="checkbox-item__box"></span>
+                    <span class="checkbox-item__text">
+                      <strong>Git & GitHub na prática (Partes 1 e 2)</strong>
+                      <small>22 e 23/11 · Liliane Cavalcante + Charles Albert</small>
+                    </span>
+                  </label>
+
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="minicursos" value="Servidor web em Docker (22/11)" />
+                    <span class="checkbox-item__box"></span>
+                    <span class="checkbox-item__text">
+                      <strong>Servidor web em Docker</strong>
+                      <small>22/11 · Arinaldo Araújo da Silva</small>
+                    </span>
+                  </label>
+
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="minicursos" value="Você não conhece o IntelliJ (22/11)" />
+                    <span class="checkbox-item__box"></span>
+                    <span class="checkbox-item__text">
+                      <strong>Você não conhece o IntelliJ</strong>
+                      <small>22/11 · Prof. Manoel Campos</small>
+                    </span>
+                  </label>
+
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="minicursos" value="Sessão de Jogos + Encerramento (24/11)" />
+                    <span class="checkbox-item__box"></span>
+                    <span class="checkbox-item__text">
+                      <strong>Sessão de Jogos + Encerramento</strong>
+                      <small>24/11 · SASPI Code Crew</small>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-footer">
+                <button type="submit" class="button button--lime button--full" id="regSubmitBtn">
+                  <span>confirmar minha inscrição</span>
+                  <svg class="icon"><use href="#i-check"/></svg>
+                </button>
+                <p class="form-privacy">
+                  Ao confirmar sua inscrição, os dados serão salvos no banco oficial do evento para credenciamento e emissão de certificados.
+                </p>
+              </div>
+            </form>
+
+            <div class="registration-success is-hidden" id="registrationSuccess">
+              <div class="success-card">
+                <div class="success-card__badge"><svg class="icon"><use href="#i-check"/></svg></div>
+                <span class="success-card__kicker">INSCRIÇÃO CONFIRMADA!</span>
+                <h3 id="successParticipantName">Parabéns!</h3>
+                <p>Sua participação na <strong>SASPI Code IFTO</strong> foi registrada com sucesso no sistema.</p>
+                <div class="success-card__details" id="successDetails"></div>
+                <button class="button button--ghost" id="newRegBtn">Fazer nova inscrição</button>
+              </div>
             </div>
           </div>
         </div>
@@ -222,7 +381,7 @@
       <!-- comissão organizadora -->
       <section class="committee section-pad" id="comissao">
         <div class="container">
-          <div class="section-label"><span class="section-label__line"></span><span>05 / comissão organizadora</span></div>
+          <div class="section-label"><span class="section-label__line"></span><span>06 / comissão organizadora</span></div>
           <div class="committee__header">
             <h2>quem faz<br /><i>acontecer.</i></h2>
             <p>A SASPI Code é organizada por docentes e discentes das coordenações dos cursos de informática do IFTO Campus Palmas.</p>
@@ -265,7 +424,7 @@
       <!-- parceiros / instituições participantes -->
       <section class="partners section-pad">
         <div class="container">
-          <div class="section-label"><span class="section-label__line"></span><span>06 / rede de apoio</span></div>
+          <div class="section-label"><span class="section-label__line"></span><span>07 / rede de apoio</span></div>
           <div class="partners__header">
             <h2>instituições na<br /><i>programação.</i></h2>
             <p>Organizações que confirmaram participação com palestras, minicursos ou mediações ao longo da semana.</p>
@@ -284,7 +443,7 @@
       <section class="location section-pad" id="local">
         <div class="container location__layout">
           <div class="location__info">
-            <div class="section-label"><span class="section-label__line"></span><span>07 / como chegar</span></div>
+            <div class="section-label"><span class="section-label__line"></span><span>08 / como chegar</span></div>
             <h2>onde vamos<br /><i>estar.</i></h2>
             <p class="body-copy">O evento acontece de forma presencial no campus, com transmissão simultânea das atividades marcadas como "online" na programação.</p>
             <dl class="location__details">
@@ -308,7 +467,7 @@
       <!-- faq -->
       <section class="faq section-pad" id="faq">
         <div class="container">
-          <div class="section-label"><span class="section-label__line"></span><span>08 / perguntas frequentes</span></div>
+          <div class="section-label"><span class="section-label__line"></span><span>09 / perguntas frequentes</span></div>
           <div class="faq__header">
             <h2>ainda com<br /><i>dúvidas?</i></h2>
             <p>As respostas mais pedidas pela comunidade acadêmica sobre a SASPI Code.</p>
@@ -329,6 +488,7 @@
           <span>navegue</span>
           <button data-goto="manifesto">manifesto</button>
           <button data-goto="agenda">programação</button>
+          <button data-goto="inscricao">inscrição</button>
           <button data-goto="comissao">comissão</button>
           <button data-goto="faq">faq</button>
         </div>
@@ -369,6 +529,9 @@
     <div class="toast-container" id="toastContainer"></div>
   </div>
 
+  <!-- Supabase JS Client via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>
