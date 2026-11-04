@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="theme-color" content="#101311" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <title>Painel — SASPI Code</title>
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body class="admin-body">
+  <svg style="display:none" aria-hidden="true">
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v5M14 11v5"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-clock-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  </svg>
+
+  <header class="admin-top">
+    <a class="brand" href="index.html" aria-label="Voltar ao site">
+      <span class="brand__mark"><span>{ }</span></span>
+      <span class="brand__text"><strong>SASPI</strong> <em>CODE</em><small>painel da organização</small></span>
+    </a>
+    <div class="admin-top__right">
+      <span class="admin-badge" id="modeBadge" hidden>modo demonstração</span>
+      <button class="button button--ghost-dark" id="logoutBtn" type="button" hidden>sair</button>
+    </div>
+  </header>
+
+  <!-- LOGIN -->
+  <main class="admin-login" id="loginView" hidden>
+    <form class="registration-form admin-login__card" id="loginForm" novalidate>
+      <div class="form-header">
+        <span class="form-header__tag">ÁREA RESTRITA</span>
+        <h3>Entrar no painel</h3>
+        <p>Acesso apenas para a organização do evento.</p>
+      </div>
+      <div class="form-group">
+        <label for="loginEmail">E-mail</label>
+        <input type="email" id="loginEmail" autocomplete="username" required />
+      </div>
+      <div class="form-group">
+        <label for="loginSenha">Senha</label>
+        <input type="password" id="loginSenha" autocomplete="current-password" required />
+      </div>
+      <button type="submit" class="button button--lime button--full" id="loginBtn"><span>entrar</span><svg class="icon"><use href="#i-lock"/></svg></button>
+      <p class="form-privacy" id="loginMsg" role="alert"></p>
+    </form>
+  </main>
+
+  <!-- PAINEL -->
+  <main class="admin-panel" id="panelView" hidden>
+    <section class="admin-wrap">
+      <div class="admin-head">
+        <div>
+          <div class="section-label"><span class="section-label__line"></span><span>painel / jogos</span></div>
+          <h1>quem vai<br /><i>jogar.</i></h1>
+        </div>
+        <div class="admin-actions">
+          <button class="button button--ghost-dark" id="refreshBtn" type="button"><svg class="icon"><use href="#i-refresh"/></svg> atualizar</button>
+        </div>
+      </div>
+
+      <div class="admin-stats" id="stats"></div>
+
+      <div class="admin-toolbar">
+        <label class="admin-search"><svg class="icon"><use href="#i-search"/></svg>
+          <input type="search" id="searchInput" placeholder="Buscar por nome, matrícula, e-mail, telefone, faculdade..." autocomplete="off" />
+        </label>
+        <select id="filterVinculo" aria-label="Filtrar por vínculo">
+          <option value="">Todos os vínculos</option>
+          <option value="ifto">Alunos IFTO</option>
+          <option value="externo">Outras instituições</option>
+        </select>
+        <select id="filterJogo" aria-label="Filtrar por jogo">
+          <option value="">Todos os jogos</option>
+          <option>Arcade Sprint</option>
+          <option>LAN // IFTO</option>
+          <option>Game Jam 90'</option>
+        </select>
+      </div>
+
+      <div class="admin-export">
+        <span class="admin-export__label">exportar o que está na tela:</span>
+        <button class="button button--lime" id="btnXlsx" type="button"><svg class="icon"><use href="#i-download"/></svg> Excel (.xlsx)</button>
+        <button class="button button--lime" id="btnPdf" type="button"><svg class="icon"><use href="#i-download"/></svg> PDF</button>
+        <button class="button button--ghost-dark" id="btnCsv" type="button"><svg class="icon"><use href="#i-download"/></svg> CSV</button>
+      </div>
+
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="table">
+          <thead id="thead"></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+        <p class="admin-empty" id="emptyMsg" hidden>Nenhuma inscrição encontrada.</p>
+      </div>
+      <p class="admin-foot" id="footMsg"></p>
+    </section>
+  </main>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js" crossorigin="anonymous"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,131 +1,78 @@
-# SASPI Code — IFTO Palmas (versão simples)
+# SASPI Code — IFTO Palmas
 
-Clone do site da Semana Acadêmica de Sistemas para Internet (SASPI Code) do IFTO Campus Palmas,
-reconstruído em **HTML + CSS + JavaScript puro** — sem Vite, sem TypeScript, sem build, sem
-dependências para instalar.
-
-## Estrutura
+Site da Semana Acadêmica de Sistemas para Internet. **HTML + CSS + JavaScript puro**, sem build.
 
 ```
-saspi-code-simples/
-├── index.html      → toda a estrutura da página (header, hero, agenda, games, inscrições, etc.)
-├── css/
-│   └── style.css   → todo o estilo visual (cores IFTO, tipografia, layout responsivo)
-└── js/
-    ├── supabase.js → cliente e credenciais do banco Supabase (com modo demo)
-    └── script.js   → interatividade: menu mobile, abas, modal, envio de inscrição e toasts
+index.html        → site (hero, agenda, games + inscrição nos jogos, FAQ...)
+admin.html        → painel da organização (login, lista, busca, filtros, exporta Excel/PDF/CSV)
+css/style.css     → visual do site         css/admin.css → visual do painel
+js/script.js      → interações, validação dos formulários
+js/supabase.js    → gravação/leitura no banco (com modo demo)
+js/admin.js       → painel e exportações
+sql/schema.sql    → tabela dos jogos + regras de segurança  ← rodar 1 vez
+assets/           → favicon (aba do navegador), apple-touch-icon e og-image (prévia ao compartilhar)
 ```
 
 ## Como rodar
+Abra a pasta no VS Code → botão direito em `index.html` → **Open with Live Server**.
+Sem Live Server também abre, mas use um servidor para testar o painel.
 
-Não precisa instalar nada (`npm install`, etc). Basta abrir com o **Live Server** do VS Code:
+## Configurar o banco (Supabase) — passo a passo
 
-1. Instale a extensão **Live Server** no VS Code (se ainda não tiver).
-2. Abra a pasta `saspi-code-simples` no VS Code.
-3. Clique com o botão direito em `index.html` → **"Open with Live Server"**.
-4. O site abre automaticamente no navegador em algo como `http://127.0.0.1:5500`.
+1. **SQL Editor** → cole todo o `sql/schema.sql` → **Run**.
+   - Antes, troque `seu.email@ifto.edu.br` (no topo do arquivo) pelo e-mail de quem poderá ver os inscritos.
+   - Se já criou tabelas de versões anteriores (`inscricoes` e/ou `inscricoes_jogos`), apague-as antes
+     (comandos no topo do SQL), pois as colunas mudaram. Exporte dados reais antes, se houver.
+2. **Authentication → Users → Add user**: crie o usuário admin (mesmo e-mail do passo 1) com senha forte.
+3. **Authentication → Providers → Email**: desative **"Allow new users to sign up"**
+   (assim ninguém além de você cria conta).
+4. Confira `SUPABASE_URL` e `SUPABASE_ANON_KEY` em `js/supabase.js`. A chave `anon/publishable` é pública
+   por natureza — a proteção está nas regras do banco. **Nunca** coloque a `service_role` no site.
 
-Você também pode simplesmente abrir o `index.html` direto no navegador (funciona sem
-servidor, já que não há chamadas de API nem módulos ES importados por caminho relativo
-que exijam `http://`).
+Pronto: o site grava, e **só você** lê pelo `admin.html` (ou pelo Table Editor do Supabase).
 
-## Banco de Dados das Inscrições (Supabase)
+> Sem credenciais, o site entra em **modo demonstração** (dados só no navegador). Com credenciais
+> preenchidas, se o Supabase não responder o site mostra erro — nunca finge que gravou.
 
-O formulário de inscrições salva os participantes diretamente no **Supabase** (PostgreSQL na nuvem).
+## Acessar e exportar os inscritos
 
-### 1. Criar a Tabela no Supabase
-Acesse o painel do seu projeto no Supabase, abra o menu **SQL Editor** e execute o comando abaixo:
+Abra `/admin.html`, entre com o e-mail/senha do passo 2 e use:
+**Excel (.xlsx)**, **PDF** ou **CSV** (exportam o que está filtrado na tela).
+Há busca (nome, matrícula, e-mail, telefone, faculdade), filtro por vínculo (IFTO/externo) e por jogo, e contadores no topo.
 
-```sql
--- Criar tabela de inscrições com TODOS os campos obrigatórios
-create table public.inscricoes (
-  id uuid default gen_random_uuid() primary key,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
-  nome text not null check (char_length(trim(nome)) >= 3),
-  email text not null unique check (char_length(trim(email)) > 5),
-  telefone text not null check (char_length(trim(telefone)) >= 10),
-  vinculo text not null check (vinculo in ('estudante_ifto', 'servidor_ifto', 'comunidade_externa')),
-  matricula_ou_instituicao text not null check (char_length(trim(matricula_ou_instituicao)) >= 2),
-  curso text not null check (char_length(trim(curso)) >= 2),
-  minicursos jsonb not null check (jsonb_array_length(minicursos) >= 1)
-);
+## Formulário (inscrição nos jogos)
 
--- Habilitar Row Level Security (RLS)
-alter table public.inscricoes enable row level security;
+Todos os botões "inscreva-se" do site levam a ele. Campos:
+jogo (select) · nome · "é aluno do IFTO?" → **sim**: matrícula · **não**: faculdade + período · e-mail · telefone.
+Não aceita a mesma pessoa duas vezes no mesmo jogo (por e-mail ou matrícula).
 
--- Permitir inserção de novas inscrições
-create policy "Permitir inserção pública de inscrições"
-on public.inscricoes for insert
-to anon
-with check (true);
+> O formulário de inscrição geral no evento foi removido.
 
--- Permitir checagem de e-mail existente
-create policy "Permitir checagem de e-mail existente"
-on public.inscricoes for select
-to anon
-using (true);
-```
+## Segurança (o que foi feito)
 
-### 2. Configurar as Chaves no Projeto
-Abra o arquivo `js/supabase.js` e preencha as variáveis com os dados do seu projeto:
+- Banco: visitantes só **inserem**; leitura/exclusão só do admin (RLS). A política antiga que deixava
+  qualquer um **ler todos os e-mails e telefones** foi removida.
+- Validações também no banco (tamanhos, e-mail, telefone, matrícula/faculdade obrigatórias conforme o caso)
+  e e-mail/matrícula únicos por jogo contra duplicatas.
+- Anti-XSS: dados do usuário nunca entram como HTML; nome aceita só letras, espaço, `'`, `.` e `-`.
+- Anti-spam: campo isca (honeypot) + limite de envios por navegador.
+- Exportações protegidas contra "injeção de fórmula" (`=`, `+`, `-`, `@`) no Excel/CSV.
+- CSP restringindo scripts/estilos/conexões, SDK do Supabase com versão fixada, links externos com `noopener`.
+- `admin.html` com `noindex` (fora do Google).
 
-```javascript
-const SUPABASE_URL = "https://SEU_PROJETO.supabase.co";
-const SUPABASE_ANON_KEY = "SUA_CHAVE_ANON_PUBLICA";
-```
-> **Nota:** Caso as chaves ainda não estejam preenchidas, o site entra automaticamente em **Modo Demonstração**, simulando o envio e permitindo testar toda a interface e fluxo sem erros.
+**Ao publicar**, configure também estes cabeçalhos HTTP no servidor/hospedagem (não dá para fazer por HTML):
+`X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY` (ou `frame-ancestors 'none'` na CSP),
+`Referrer-Policy: strict-origin-when-cross-origin`, e HTTPS obrigatório. Netlify/Vercel/GitHub Pages já servem HTTPS.
 
-## O que foi mantido do site original
+## Antes de publicar — checklist
 
-- Mesmas seções: topo com aviso de inscrições, header com menu, hero, manifesto,
-  "três lentes" (tracks), programação (agenda por dia), jogos, sobre o evento, rodapé.
-- Mesma programação (dias 21 a 24/11) e os mesmos jogos.
-- Mesmo esquema de cores (verde/vermelho institucional do IFTO) e tipografia
-  (Space Grotesk, Manrope, DM Mono via Google Fonts).
-- Mesmo comportamento: trocar de dia na agenda, abrir detalhes da atividade em modal,
-  "participar" dos jogos, notificações (toast) ao clicar em botões, menu mobile.
-
-## Seções novas (deixando o site mais institucional/acadêmico)
-
-- **Comissão organizadora** (`#comissao`) — cartões com nome e função de quem organiza
-  o evento (nomes fictícios de exemplo — troque pelos nomes reais da sua comissão).
-- **Rede de apoio** — selo com as instituições que participam da programação
-  (reaproveita as afiliações já citadas nos palestrantes da agenda).
-- **Como chegar** (`#local`) — endereço oficial do IFTO Campus Palmas, telefone,
-  e-mail e um mapa incorporado do Google Maps.
-- **Perguntas frequentes** (`#faq`) — accordion com as dúvidas mais comuns
-  (inscrição, certificado, gravações, etc.).
-
-> O endereço usado em "Como chegar" é o endereço público oficial do IFTO Campus Palmas.
-> Os nomes da comissão organizadora e as respostas do FAQ são **exemplos** — edite-os
-> com as informações reais do seu evento antes de publicar.
-
-## Acessibilidade
-
-- **Link "Pular para o conteúdo"** — aparece ao pressionar Tab logo ao abrir a página,
-  permitindo pular o menu e ir direto ao conteúdo principal.
-- **Foco visível reforçado** em cartões, botões, abas da agenda e perguntas do FAQ,
-  para quem navega só pelo teclado.
-- **Modal de atividade acessível**: ao abrir, o foco vai para o botão de fechar; `Tab`
-  fica preso dentro do modal (focus trap); `Esc` fecha; ao fechar, o foco volta para
-  o botão que abriu o modal.
-- **Accordion do FAQ** segue o padrão de acessibilidade `aria-expanded` /
-  `aria-controls`, então também funciona bem com leitor de tela.
-- **Mapa** com `title` descritivo e `loading="lazy"`.
-
-## O que foi simplificado
-
-- Sem React, sem Vite, sem TypeScript, sem Tailwind — tudo em HTML semântico e CSS puro.
-- Ícones em um único sprite SVG dentro do próprio `index.html` (sem depender de pacote
-  `lucide-react` nem de CDN de ícones).
-- Toasts e modal implementados manualmente em ~250 linhas de JavaScript, sem bibliotecas.
-- A imagem de fundo do hero (que no original vinha de um storage privado do projeto) foi
-  trocada por um gradiente/textura em CSS, para o site funcionar 100% offline.
+- [ ] Trocar a URL da imagem de compartilhamento por **endereço absoluto**: em `index.html`, `og:image` e
+      `twitter:image` → `https://SEU-SITE/assets/og-image.png` (WhatsApp/Instagram exigem URL completa).
+- [ ] Conferir **ano e dias da semana** na agenda (`js/script.js`): os rótulos "terça…sexta" para 21–24/11
+      só valem em alguns anos; em 2026 21/11 cai em sábado.
+- [ ] Trocar os nomes **de exemplo** da comissão e as respostas do FAQ pelos reais.
+- [ ] Rodar `sql/schema.sql` e criar o usuário admin.
 
 ## Editar conteúdo
-
-- **Programação**: edite o objeto `schedule` em `js/script.js`.
-- **Jogos**: edite o array `games` em `js/script.js`.
-- **Textos das seções**: edite diretamente em `index.html`.
-- **Cores/estilos**: edite `css/style.css` (as cores principais estão em uso direto,
-  ex.: `#2f7d46` verde IFTO e `#b52a36` vermelho de destaque).
+Programação, jogos e FAQ: arrays no começo de `js/script.js`. Textos: `index.html`.
+Se criar um jogo novo, inclua o nome também no `check (jogo in (...))` do SQL, no `<select id="gameJogo">` e no filtro do `admin.html`.
