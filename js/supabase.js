@@ -8,8 +8,8 @@
 // 2. No menu lateral, acesse "Project Settings" -> "API"
 // 3. Copie a "Project URL" e a chave pública "anon public"
 // 4. Cole nos campos abaixo:
-const SUPABASE_URL = "https://xjrbnptovyrwlynlbaes.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_3uxrOovVCdZ5_FFv3YvqYw_LqDGgGHp";
+const SUPABASE_URL = "https://uvpcdxkjcqeglqbmtqhi.supabase.co/rest/v1/;
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV2cGNkeGtqY3FlZ2xxYm10cWhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM3OTU0NzUsImV4cCI6MjEwOTM3MTQ3NX0.q3_OCvvMR_2XMDeHMfyxIkA81CtNHa9bIgUCSSwQgzE";
 
 let supabaseClient = null;
 
