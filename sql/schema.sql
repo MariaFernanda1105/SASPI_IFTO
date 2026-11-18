@@ -20,7 +20,7 @@ language sql stable
 as $$
   select coalesce(
     (auth.jwt() ->> 'email') = any (array[
-      'seu.email@ifto.edu.br'
+      'alunos@ifto.edu.br'
       -- , 'outro.admin@ifto.edu.br'
     ]),
     false
