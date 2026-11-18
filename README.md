@@ -2,6 +2,8 @@
 
 Site da Semana Acadêmica de Sistemas para Internet. **HTML + CSS + JavaScript puro**, sem build.
 
+https://iridescent-khapse-79843c.netlify.app/
+
 ```
 index.html        → site (hero, agenda, games + inscrição nos jogos, FAQ...)
 admin.html        → painel da organização (login, lista, busca, filtros, exporta Excel/PDF/CSV)
