@@ -2,7 +2,7 @@
 
 Site da Semana Acadêmica de Sistemas para Internet. **HTML + CSS + JavaScript puro**, sem build.
 
-https://saspi-ifto.netlify.app
+https://conecti-ifto.netlify.app
 
 ```
 index.html        → site (hero, agenda, games + inscrição nos jogos, FAQ...)
