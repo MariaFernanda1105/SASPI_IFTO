@@ -8,14 +8,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------------------------------------
   // dados da programação
   // -----------------------------------------------------------
-  const days = [
+  let days = [
     { id: "21", label: "terça", date: "21/11" },
     { id: "22", label: "quarta", date: "22/11" },
     { id: "23", label: "quinta", date: "23/11" },
     { id: "24", label: "sexta", date: "24/11" },
   ];
 
-  const schedule = {
+  let schedule = {
     "21": [
       { time: "08:30", title: "Abertura // novos caminhos", type: "cerimônia", speaker: "Coordenações IFTO", place: "Auditório central", accent: "lime", featured: true },
       { time: "09:25", title: "Tecnologia sustentável", type: "palestra", speaker: "Edilanny Soares + Sara Jane", place: "Auditório central", accent: "white" },
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { q: "Onde acompanho atualizações da programação?", a: "Pelos canais oficiais informados no rodapé deste site — e-mail da organização e comunidade no GitHub." },
   ];
 
-  let activeDay = "21";
+  let activeDay = days[0].id;
   const joinedGames = new Set();
   let lastFocusedBeforeModal = null;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -366,6 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modalKicker.className = `modal-kicker modal-kicker--${item.accent}`;
     modalTitle.textContent = item.title;
     modalSpeaker.textContent = item.speaker;
+    modalSpeaker.parentElement.hidden = !item.speaker; // programação do SUAP não tem palestrante
     modalTime.textContent = `${item.time} · ${dayDate}`;
     modalPlace.textContent = item.place;
     currentSessionKey = `${activeDay}|${item.time}|${item.title}`;
@@ -688,11 +689,29 @@ document.addEventListener("DOMContentLoaded", () => {
     $("#gameNome").focus();
   });
 
+  /** troca a programação fixa pela do SUAP (via netlify/functions/programacao.mjs); se falhar, mantém a fixa */
+  async function loadSuapSchedule() {
+    try {
+      const res = await fetch("/api/programacao");
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!data.days?.length) return;
+      days = data.days;
+      schedule = data.schedule;
+      activeDay = days[0].id;
+      renderDayTabs();
+      renderSchedule();
+    } catch {
+      // sem rede ou rodando sem Netlify (Live Server): fica a programação fixa
+    }
+  }
+
   // -----------------------------------------------------------
   // init
   // -----------------------------------------------------------
   renderDayTabs();
   renderSchedule();
+  loadSuapSchedule();
   renderGames();
   renderFaq();
   setupReveal();

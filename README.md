@@ -62,9 +62,9 @@ Não aceita a mesma pessoa duas vezes no mesmo jogo (por e-mail ou matrícula).
 - CSP restringindo scripts/estilos/conexões, SDK do Supabase com versão fixada, links externos com `noopener`.
 - `admin.html` com `noindex` (fora do Google).
 
-**Ao publicar**, configure também estes cabeçalhos HTTP no servidor/hospedagem (não dá para fazer por HTML):
-`X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY` (ou `frame-ancestors 'none'` na CSP),
-`Referrer-Policy: strict-origin-when-cross-origin`, e HTTPS obrigatório. Netlify/Vercel/GitHub Pages já servem HTTPS.
+Cabeçalhos HTTP de segurança (não dá para fazer por HTML) ficam no `netlify.toml`:
+`X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`
+e `Permissions-Policy`. A Netlify já serve HTTPS.
 
 ## Antes de publicar — checklist
 
@@ -75,6 +75,17 @@ Não aceita a mesma pessoa duas vezes no mesmo jogo (por e-mail ou matrícula).
 - [ ] Trocar os nomes **de exemplo** da comissão e as respostas do FAQ pelos reais.
 - [ ] Rodar `sql/schema.sql` e criar o usuário admin.
 
+## Programação vinda do SUAP
+
+A agenda é carregada do evento 1902 no SUAP pela função `netlify/functions/programacao.mjs`
+(rota `/api/programacao`, com cache de 10 min). Ela autentica via OAuth2 *client credentials*.
+
+- Na Netlify: **Site configuration → Environment variables** → crie `SUAP_CLIENT_ID` e `SUAP_CLIENT_SECRET`.
+- Localmente: as mesmas variáveis no arquivo `.env` (já no `.gitignore`; **nunca** faça commit dele).
+- Se a função falhar (ou no Live Server, que não roda funções), o site mostra a programação fixa de `js/script.js`.
+- A API não traz palestrante nem local por atividade: o título é a descrição do SUAP e o local é o do evento.
+- Teste do conversor: `node --test netlify/lib/`.
+
 ## Editar conteúdo
-Programação, jogos e FAQ: arrays no começo de `js/script.js`. Textos: `index.html`.
+Programação reserva, jogos e FAQ: arrays no começo de `js/script.js`. Textos: `index.html`.
 Se criar um jogo novo, inclua o nome também no `check (jogo in (...))` do SQL, no `<select id="gameJogo">` e no filtro do `admin.html`.
