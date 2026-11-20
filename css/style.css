@@ -248,6 +248,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #2f7d46; outline-offs
 .schedule__footer { display: flex; align-items: center; justify-content: space-between; margin-top: 24px; flex-wrap: wrap; gap: 12px; }
 .schedule__footer span { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; row-gap: 8px; color: #858981; font: 400 9px 'DM Mono', monospace; text-transform: uppercase; }
 .schedule__footer .text-link { margin-top: 0; }
+.schedule__links { display: flex; flex-wrap: wrap; gap: 12px 24px; }
 .schedule__key { width: 8px; height: 8px; display: inline-block; margin-left: 8px; }
 .schedule__key--lime { background: #2f7d46; }
 .schedule__key--violet { background: #b52a36; }
